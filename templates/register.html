@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Couture</title>
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+    <link rel="stylesheet" href="{% static 'font-6/css/all.css' %}">
+    <link rel="icon" href="{% static 'images/croclogo.png' %}">
+</head>
+<body>
+    <div class="container">
+        <p>Welcome to our website</p>
+        <span>
+        <button class="btn">Join Us</button>
+        <a href="login">
+        <button class="btn">Login</button>
+        </a>
+        </span>
+    </div>
+    <div class="pop-up ">
+        <h4>Please SignUp here</h4>
+        
+        {% for message in messages %}
+        <h5>{{message}}</h5>
+        {% endfor %}
+        <a href="">go back</a>
+
+        <form method="POST" action="register" >
+            {% csrf_token %}
+            <label for="tui">Email</label>
+            <input type="email" name="email" placeholder="Enter Your Email" />
+            <label for="tuii">username</label>
+            <input type="text" name="username" placeholder="Enter Your username" />
+            <label for="tuiii">password</label>
+            <input type="password" name="password" placeholder="Enter Your password" />
+            <label for="tuiiii">password2</label>
+            <input type="password" name="password2" placeholder="Enter Your password" />
+            <input type="submit" />
+            
+            <div class="close-icon">
+                <i class="fa-solid fa-close close"></i>
+            </div>
+        </form>
+        
+        
+    </div>
+
+    <script src="{% static 'register.js' %}"></script>
+</body>
+</html>

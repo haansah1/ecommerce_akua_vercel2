@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% for product in sweaters %}
+<div class="new">
+    <div>
+        <a href="{% url 'detail' product.id %}" class="href">
+            <img src={{product.imageURL}} alt="">
+        </a>
+        </div>
+    <div class="content">
+    <div>
+        <p class="prod-name">{{product.name}} </p>
+        <p class="prod-name1">
+            <i class="fas fa-cart-shopping"></i>
+            GHS {{product.price}} </p>
+    </div>
+    <div class="desc">
+        <p> {{product.detail}} </p>
+        <button data-product={{product.id}} data-action="add" class="update-cart update" > Add to Cart</button>
+    </div>
+</div>
+</div>
+
+<br>
+{% endfor %}
+{% endblock %}
+
+

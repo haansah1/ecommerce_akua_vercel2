@@ -1,0 +1,183 @@
+{% comment %} {% for feature in features %}
+<h1>Mese KOKO ne KOOSE {{feature.name}}, {{feature.detail}}, {{feature.price}}</h1>
+{% endfor %} {% endcomment %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Couture</title>
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <link rel="stylesheet" href="{% static 'font-6/css/all.css' %}">
+    <link rel="icon" href="{% static 'images/croclogo.png' %}">
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getToken(name){
+            var cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++){
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')){
+                        cookieValue = decodeURIComponent(cookie.substring(
+                            name.length + 1
+                        ));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken')
+
+        function getCookie(name){
+            var cookieArr = document.cookie.split(";");
+
+            for(var i = 0; i < cookieArr.length; i++){
+                var cookiePair = cookieArr[i].split("=");
+
+                if (name == cookiePair[0].trim()){
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        var cart = JSON.parse(getCookie('cart'))
+        if(cart == undefined){
+            cart = {}
+            console.log('cart was created')
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        }
+        console.log('Cart:', cart)
+    </script>
+</head>
+<body>
+    <header>
+        <div class="first-header">
+            <div class="div1">
+                <div>
+                    <img class="croclogo" src="{% static 'images/croclogo.png' %}" alt="">
+                    {% comment %} <h4 class="amazon">Amazon</h4>
+                    <i class="fa-brands fa-amazon-pay fa-2x"></i> {% endcomment %}
+                </div>
+                {% if user.is_authenticated %}
+                <p>Welcome, <em>{{user.username}}.</p>
+                {% else %}
+                <p>Welcome,  <em>user . . </em></p>
+                {% endif %}
+            </div>
+            <div class="div2">
+                <form action="{% url 'search' %}" method=POST>
+                    {% csrf_token %}
+                    <input type="search" name="searched" id="inp" placeholder="search" >
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+                
+            </div>
+        </div>
+        <div class="second-header">
+            <div>
+                <div class="bar-row2">
+                    <a href="{% url 'index' %}">Products</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Profile</a>
+                        <a href="#">About</a>
+                        <a href="#">Customer Service</a>
+                </div>
+                <div class="phone-view">
+                    <input type="checkbox" id="input" class="input1">
+                    <label for="input">
+                        <i class="fas fa-bars bars"></i>
+                    </label>
+                    <div class="bar-row">
+                        <a href="{% url 'index' %}">Products</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Profile</a>
+                        <a href="#">About</a>
+                        <a href="#">Customer Service</a>
+                    </div>
+                </div>
+
+
+                <div class="cure">
+                    <a href="cart" class="cart-icon">
+                        cart
+                        <i class="fas fa-cart-shopping"></i>
+                        {% if cartItems %}
+                        <p>{{cartItems}}</p>
+                        {% endif %}
+                    </a>
+                    {% if user.is_authenticated %}
+                    <a href="logout" class="logout">logout </a>
+                    {% else %}
+                    <a href="register" class="register">Login/register</a>
+                    {% endif %}
+                </div>
+                
+            </div>
+        </div>
+    </header>   
+    
+    <section>
+        <div class="splash">
+            <div class="splash1">
+                <div><img class="img1" src="./images/croc1.png" alt=""></div>
+            <div><img class="img1" src={% static 'images/croc2.jpg' %} alt=""></div>
+            <div><img class="img1" src="./images/croc3.jpg" alt=""></div>
+            </div>
+            <div class="splash2">
+                <div>clothing</div>
+                <div>dresses</div>
+                <div>apparel</div>
+            </div>
+            <div class="splash3">
+                <article>crochet couture</article>
+                <p>Handmade with love</p>
+            </div>
+        </div>
+        <div class="sort">
+            <a href="{% url 'index' %}">all</a>
+            <a href="{% url 'bikini' %}">Bikinis</a>
+            <a href="{% url 'top' %}">tops</a>
+            <a href="{% url 'combo' %}">combos</a>
+            <a href="{% url 'sweater' %}">sweaters</a>
+        </div>
+        
+
+        
+        <div class="new-bracket">
+            {% block content %}{% endblock %}
+            {% for product_group in products_groups %}
+            {% comment %} <h2>{{ product_group.name }}</h2> {% endcomment %}
+            {% for product in product_group.products.all %}
+            <div class="new">
+                <div>
+                    <a href="{% url 'detail' product.id %}" class="href">
+                        <img src={{product.imageURL}} alt="">
+                    </a>
+                    </div>
+                <div class="content">
+                <div>
+                    <p class="prod-name">{{product.name}} </p>
+                    <p class="prod-name1">
+                        <i class="fas fa-cart-shopping"></i>
+                        GHS {{product.price}} </p>
+                </div>
+                <div class="desc">
+                    <p> {{product.detail}} </p>
+                    <button data-product={{product.id}} data-action="add" class="update-cart update" > Add to Cart</button>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+        {% endfor %}
+        </div>
+    </section>
+    <script src="{% static 'index.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cart.js' %}"></script>
+</body>
+</html> 
