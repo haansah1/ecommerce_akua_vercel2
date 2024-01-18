@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-^4isks%k_9e6$f*&^n5e1e6p_&%h6t#*^4vp37*$gsze@vwojz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app","127.0.0.1"]
+ALLOWED_HOSTS = [".vercel.app","127.0.0.1", "www.crochetcouturegh.com", "crochetcouturegh.com"]
 
 
 # Application definition
@@ -148,4 +148,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CSRF_TRUSTED_ORIGINS = ['https://web-production-6aa3.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://www.crochetcouturegh.com/']
