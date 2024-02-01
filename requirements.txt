@@ -8,6 +8,7 @@ filelock==3.13.1
 gunicorn==21.2.0
 packaging==23.2
 pbr==6.0.0
+pillow==10.2.0
 platformdirs==4.1.0
 # psycopg2==2.9.9
 psycopg2-binary==2.9.9
